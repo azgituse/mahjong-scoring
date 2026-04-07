@@ -563,11 +563,11 @@
                                 <div class="gang-score-text">每家2分</div>
                             </button>
                             <button class="gang-type-btn" onclick="selectGangType('ming')">
-                                <div>明杠</div>
-                                <div class="gang-score-text">放杠3分</div>
+                                <div>点杠</div>
+                                <div class="gang-score-text">点杠2分</div>
                             </button>
                             <button class="gang-type-btn" onclick="selectGangType('jia')">
-                                <div>加杠</div>
+                                <div>补杠</div>
                                 <div class="gang-score-text">每家1分</div>
                             </button>
                         </div>
@@ -663,8 +663,8 @@
             'tianhu': 4,      // 天胡 16分
             'dihu': 3         // 地胡 8分
         };
-        const gangNames = { 'an': '暗杠', 'ming': '明杠', 'jia': '加杠' };
-        const gangAmounts = { 'an': 2, 'ming': 3, 'jia': 1 };
+        const gangNames = { 'an': '暗杠', 'ming': '点杠', 'jia': '补杠' };
+        const gangAmounts = { 'an': 2, 'ming': 2, 'jia': 1 };
 
         // 计算番数对应的分数：0番=1分, 1番=2分, n番=2^n分
         function calculateScore(fan) {
