@@ -595,9 +595,8 @@
 
                     <!-- 总番数显示 -->
                     <div class="score-display">
-                        <div class="score-label">总番数</div>
-                        <div class="score-value" id="hu-score-display">-</div>
-                        <div class="score-detail" id="hu-score-detail">请选择牌型</div>
+                        <div class="score-detail" id="hu-fan-detail">请选择牌型</div>
+                        <div class="score-value" id="hu-total-formula" style="font-size: 32px; margin: 10px 0;">-</div>
                     </div>
 
                     <!-- 微调 -->
@@ -900,47 +899,56 @@
         // 更新胡牌分数显示
         function updateHuScoreDisplay() {
             const hu = currentTransaction.hu;
-            const display = document.getElementById('hu-score-display');
-            const detail = document.getElementById('hu-score-detail');
+            const fanDetail = document.getElementById('hu-fan-detail');
+            const totalFormula = document.getElementById('hu-total-formula');
 
             if (!hu.handType) {
-                display.textContent = '-';
-                detail.textContent = '请选择牌型';
+                fanDetail.textContent = '请选择牌型';
+                totalFormula.textContent = '-';
                 return;
             }
 
             let totalFan = hu.baseFan;
-            let detailParts = [`${handNames[hu.handType]} ${hu.baseFan}番`];
+            let fanParts = [`${handNames[hu.handType]} ${hu.baseFan}番`];
 
             if (hu.options.zimo) {
                 totalFan += 1;
-                detailParts.push('自摸+1');
+                fanParts.push('自摸+1');
             }
             if (hu.options.gangShangHua) {
                 totalFan += 1;
-                detailParts.push('杠上花+1');
+                fanParts.push('杠上花+1');
             }
             if (hu.options.haiDiLao) {
                 totalFan += 1;
-                detailParts.push('海底捞+1');
+                fanParts.push('海底捞+1');
             }
             if (hu.gen > 0) {
                 totalFan += hu.gen;
-                detailParts.push(`${hu.gen}根+${hu.gen}`);
+                fanParts.push(`${hu.gen}根+${hu.gen}`);
             }
 
             totalFan += hu.adjust;
             hu.totalFan = totalFan;
 
-            const score = Math.pow(2, totalFan);
-            display.textContent = `${score}分/人`;
+            const scorePerPerson = Math.pow(2, totalFan);
 
-            let detailText = detailParts.join('，');
+            // 显示番数公式
+            let fanText = fanParts.join('，');
             if (hu.adjust !== 0) {
-                detailText += ` (微调${hu.adjust > 0 ? '+' : ''}${hu.adjust})`;
+                fanText += ` (微调${hu.adjust > 0 ? '+' : ''}${hu.adjust})`;
             }
-            detailText += ` = ${totalFan}番`;
-            detail.textContent = detailText;
+            fanText += ` = ${scorePerPerson}分/人`;
+            fanDetail.textContent = fanText;
+
+            // 显示总分公式（大字体）
+            const payerCount = hu.payers.length || 0;
+            const totalScore = scorePerPerson * payerCount;
+            if (payerCount > 0) {
+                totalFormula.textContent = `${payerCount}人 × ${scorePerPerson}分 = ${totalScore}分`;
+            } else {
+                totalFormula.textContent = '(请选择付钱人)';
+            }
         }
 
         // 微调胡牌分数
@@ -971,6 +979,7 @@
                 btn.disabled = (i === currentTransaction.receiver);
                 btn.classList.toggle('selected', currentTransaction.hu.payers.includes(i));
             });
+            updateHuScoreDisplay();
         }
 
         // 选择杠类型
