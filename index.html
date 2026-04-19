@@ -527,10 +527,10 @@
         <div class="step-panel active" id="panel-step1">
             <div class="step-title">👇 谁收钱？</div>
             <div class="player-select-grid">
-                <button class="player-btn" onclick="selectReceiver(0)">玩家1</button>
-                <button class="player-btn" onclick="selectReceiver(1)">玩家2</button>
-                <button class="player-btn" onclick="selectReceiver(2)">玩家3</button>
-                <button class="player-btn" onclick="selectReceiver(3)">玩家4</button>
+                <button class="player-btn" id="receiver-btn-0" onclick="selectReceiver(0)">玩家1</button>
+                <button class="player-btn" id="receiver-btn-1" onclick="selectReceiver(1)">玩家2</button>
+                <button class="player-btn" id="receiver-btn-2" onclick="selectReceiver(2)">玩家3</button>
+                <button class="player-btn" id="receiver-btn-3" onclick="selectReceiver(3)">玩家4</button>
             </div>
         </div>
 
@@ -610,10 +610,10 @@
                     <div class="payer-section">
                         <div class="payer-title">💸 谁付钱？（点击切换）</div>
                         <div class="payer-grid" id="hu-payer-grid">
-                            <button class="payer-item" onclick="toggleHuPayer(0)">玩家1</button>
-                            <button class="payer-item" onclick="toggleHuPayer(1)">玩家2</button>
-                            <button class="payer-item" onclick="toggleHuPayer(2)">玩家3</button>
-                            <button class="payer-item" onclick="toggleHuPayer(3)">玩家4</button>
+                            <button class="payer-item" id="hu-payer-btn-0" onclick="toggleHuPayer(0)">玩家1</button>
+                            <button class="payer-item" id="hu-payer-btn-1" onclick="toggleHuPayer(1)">玩家2</button>
+                            <button class="payer-item" id="hu-payer-btn-2" onclick="toggleHuPayer(2)">玩家3</button>
+                            <button class="payer-item" id="hu-payer-btn-3" onclick="toggleHuPayer(3)">玩家4</button>
                         </div>
                     </div>
                 </div>
@@ -650,10 +650,10 @@
                         </div>
                         <div class="payer-title" style="margin-top: 10px;">谁付钱？</div>
                         <div class="payer-grid" id="gang-payer-grid">
-                            <button class="payer-item" onclick="toggleGangPayer(0)">玩家1</button>
-                            <button class="payer-item" onclick="toggleGangPayer(1)">玩家2</button>
-                            <button class="payer-item" onclick="toggleGangPayer(2)">玩家3</button>
-                            <button class="payer-item" onclick="toggleGangPayer(3)">玩家4</button>
+                            <button class="payer-item" id="gang-payer-btn-0" onclick="toggleGangPayer(0)">玩家1</button>
+                            <button class="payer-item" id="gang-payer-btn-1" onclick="toggleGangPayer(1)">玩家2</button>
+                            <button class="payer-item" id="gang-payer-btn-2" onclick="toggleGangPayer(2)">玩家3</button>
+                            <button class="payer-item" id="gang-payer-btn-3" onclick="toggleGangPayer(3)">玩家4</button>
                         </div>
                         <button class="add-gang-action" id="add-gang-btn" onclick="addGang()" disabled>添加此杠</button>
                     </div>
@@ -753,6 +753,15 @@
         function updatePlayerNames() {
             for (let i = 0; i < 4; i++) {
                 document.getElementById(`name${i}`).textContent = players[i];
+                // 更新步骤1的收钱人按钮
+                const receiverBtn = document.getElementById(`receiver-btn-${i}`);
+                if (receiverBtn) receiverBtn.textContent = players[i];
+                // 更新步骤2胡牌区域的付钱人按钮
+                const huPayerBtn = document.getElementById(`hu-payer-btn-${i}`);
+                if (huPayerBtn) huPayerBtn.textContent = players[i];
+                // 更新步骤2杠钱区域的付钱人按钮
+                const gangPayerBtn = document.getElementById(`gang-payer-btn-${i}`);
+                if (gangPayerBtn) gangPayerBtn.textContent = players[i];
             }
         }
 
